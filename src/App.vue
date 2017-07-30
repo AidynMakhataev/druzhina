@@ -49,9 +49,12 @@
       </v-toolbar-items>
     </v-toolbar>
     <main>
-      <v-alert success dismissible v-if="flash.success">{{ flash.success }}</v-alert>
-      <v-alert danger dismissible v-if="flash.error">{{ flash.error }}</v-alert>
+      <div id="flash">
+        <v-alert success dismissible v-if="flash.success" value="true">{{ flash.success }}</v-alert>
+        <v-alert danger dismissible v-if="flash.error" value="true">{{ flash.error }}</v-alert>
+      </div>
       <router-view></router-view>
+
     </main>
   </v-app>
 </template>
@@ -98,4 +101,11 @@
 
 <style lang="stylus">
   @import './stylus/main'
+  #flash {
+    position: fixed;
+    top: 60px;
+    width: 30%;
+    right: 0px;
+    z-index:9999;
+  }
 </style>

@@ -24,9 +24,9 @@
 </template>
 
 <script>
+    import Flash from './../helpers/flash'
     import { post } from './../helpers/api'
     import Auth from './../store/auth'
-    import Flash from './../helpers/flash'
     export default {
         data () {
             return {
