@@ -1,113 +1,98 @@
 <template>
-  <v-app light>
+  <v-app
+    height="415px"
+    dark
+    id="e3"
+    standalone
+  >
     <v-navigation-drawer
+      class="pb-0"
       persistent
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      v-model="drawer"
+      absolute
+      height="100%"
+      clipped
       enable-resize-watcher
+      v-model="drawer"
+      v-if="auth"
     >
-      <v-list>
-        <v-list-tile
-          value="true"
-          v-for="(item, i) in items"
-          :key="i"
-        >
+      <v-list dense>
+        <v-list-tile avatar class="mb-2">
+          <v-list-tile-avatar>
+            <img src="http://www.rush-agency.ru/wp-content/uploads/avatar-1.png" alt="">
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>Current User</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-divider></v-divider>
+        <v-list-tile v-for="item in items" :key="item.title">
           <v-list-tile-action>
-            <v-icon light v-html="item.icon"></v-icon>
+            <v-icon> {{ item.icon }} </v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+            <v-list-tile-title>
+              {{ item.title }}
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed>
-      <v-toolbar-side-icon @click.native.stop="drawer = !drawer" light></v-toolbar-side-icon>
-      <v-btn
-        icon
-        light
-        @click.native.stop="miniVariant = !miniVariant"
-      >
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        light
-        @click.native.stop="clipped = !clipped"
-      >
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        light
-        @click.native.stop="fixed = !fixed"
-      >
-        <v-icon>remove</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+    <v-toolbar class="red">
+      <v-toolbar-title>
+        <v-toolbar-side-icon @click.stop="drawer = !drawer" v-if="auth"></v-toolbar-side-icon>
+        Brigade Druzhina
+      </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        icon
-        light
-        @click.native.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>menu</v-icon>
-      </v-btn>
+      <v-toolbar-items>
+        <v-btn flat v-if="auth"><v-icon left>account_box</v-icon>Profile</v-btn>
+        <v-btn flat v-if="auth" @click.stop="logout"><v-icon left>exit_to_app</v-icon>Logout</v-btn>
+      </v-toolbar-items>
     </v-toolbar>
     <main>
-      <v-container fluid>
-        <v-slide-y-transition mode="out-in">
-          <v-layout column align-center>
-            <img src="/static/v.png" alt="Vuetify.js" class="mb-5">
-            <blockquote>
-              &#8220;First, solve the problem. Then, write the code.&#8221;
-              <footer>
-                <small>
-                  <em>&mdash;John Johnson</em>
-                </small>
-              </footer>
-            </blockquote>
-          </v-layout>
-        </v-slide-y-transition>
-      </v-container>
+      <v-alert success dismissible v-if="flash.success">{{ flash.success }}</v-alert>
+      <v-alert danger dismissible v-if="flash.error">{{ flash.error }}</v-alert>
+      <router-view></router-view>
     </main>
-    <v-navigation-drawer
-      temporary
-      :right="right"
-      v-model="rightDrawer"
-    >
-      <v-list>
-        <v-list-tile @click.native="right = !right">
-          <v-list-tile-action>
-            <v-icon light>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer :fixed="fixed">
-      <span>&copy; 2017</span>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
+  import Auth from './store/auth'
+  import Flash from './helpers/flash'
   export default {
-    data () {
-      return {
-        clipped: false,
-        drawer: true,
-        fixed: false,
-        items: [
-          { icon: 'bubble_chart', title: 'Inspire' }
-        ],
-        miniVariant: false,
-        right: true,
-        rightDrawer: false,
-        title: 'Vuetify.js'
+      created() {
+          Auth.initialize()
+      },
+      data () {
+          return {
+              drawer: true,
+              items: [
+                  {title: 'Отслеживание', icon: 'my_location'},
+                  {title: 'Пользователи', icon: 'person'},
+                  {title: 'Регистрация', icon: 'face'}
+              ],
+              authState: Auth.state,
+              flash: Flash.state
+          }
+      },
+      computed: {
+          auth() {
+              if(this.authState.user_email) {
+                  return true
+              }
+              return false
+          },
+          guest() {
+              return !this.auth
+          }
+      },
+      methods: {
+          logout() {
+              Auth.remove()
+              Flash.setSuccess('Вы успешно вышли из системы.')
+              this.$router.push('/login')
+          }
       }
-    }
   }
 </script>
 
