@@ -1,7 +1,7 @@
 <template>
   <v-app
     height="415px"
-    dark
+    light
     id="e3"
     standalone
   >
@@ -16,36 +16,38 @@
       v-if="auth"
     >
       <v-list dense>
-        <v-list-tile avatar class="mb-2">
+        <v-list-tile avatar class="mb-2" :to="'/profile'">
           <v-list-tile-avatar>
             <img src="http://www.rush-agency.ru/wp-content/uploads/avatar-1.png" alt="">
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>Current User</v-list-tile-title>
+            <v-list-tile-title>
+              Current User
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
-        <v-list-tile v-for="item in items" :key="item.title">
+        <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
           <v-list-tile-action>
             <v-icon> {{ item.icon }} </v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
-              {{ item.title }}
+            {{ item.title }}
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="red">
-      <v-toolbar-title>
-        <v-toolbar-side-icon @click.stop="drawer = !drawer" v-if="auth"></v-toolbar-side-icon>
-        Brigade Druzhina
+    <v-toolbar class="blue" >
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" v-if="auth" class="white--text"></v-toolbar-side-icon>
+      <v-toolbar-title class="white--text">
+        <router-link to="/" tag="span" style="cursor:pointer;">Brigade Druzhina</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat v-if="auth"><v-icon left>account_box</v-icon>Profile</v-btn>
-        <v-btn flat v-if="auth" @click.stop="logout"><v-icon left>exit_to_app</v-icon>Logout</v-btn>
+        <v-btn flat v-if="auth" :to="'/profile'" class="white--text"><v-icon left class="white--text">account_box</v-icon>Profile</v-btn>
+        <v-btn flat v-if="auth" @click.stop="logout" class="white--text"><v-icon left class="white--text">exit_to_app</v-icon>Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <main>
@@ -70,9 +72,9 @@
           return {
               drawer: true,
               items: [
-                  {title: 'Отслеживание', icon: 'my_location'},
-                  {title: 'Пользователи', icon: 'person'},
-                  {title: 'Регистрация', icon: 'face'}
+                  {title: 'Отслеживание', icon: 'my_location', link: '/tracing'},
+                  {title: 'Пользователи', icon: 'person', link: '/users'},
+                  {title: 'Регистрация', icon: 'face', link: '/register'}
               ],
               authState: Auth.state,
               flash: Flash.state
