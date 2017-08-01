@@ -8,15 +8,18 @@ import EditUser from '@/components/user/EditUser'
 import Register from '@/components/user/Register'
 import Profile from '@/components/Profile'
 import Tracing from '@/components/Tracing'
+import {get} from './../helpers/api'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: { requiresAuth: true }
+
     },
     {
       path: '/login',
@@ -26,32 +29,55 @@ export default new Router({
     {
       path: '/users',
       name: 'Users',
-      component: Users
+      component: Users,
+      meta: { requiresAuth: true }
     },
     {
       path: '/user/:id',
       name: 'UserDetails',
-      component: UserDetails
+      component: UserDetails,
+      meta: { requiresAuth: true }
     },
     {
       path: '/user/edit/:id',
       name: 'EditUser',
-      component: EditUser
+      component: EditUser,
+      meta: { requiresAuth: true }
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      meta: { requiresAuth: true }
     },
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+      meta: { requiresAuth: true }
     },
     {
       path: '/tracing',
       name: 'Tracing',
-      component: Tracing
+      component: Tracing,
+      meta: { requiresAuth: true }
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+   if(to.meta.requiresAuth) {
+     var userObj = window.localStorage.getItem('user_email')
+     get('/api/user/validate')
+         .then(response => {
+           if(response.status === 200 && userObj) {
+             next()
+           }
+           else {
+             next({path: '/login'})
+           }
+         })
+   } else next()
+})
+
+export default router

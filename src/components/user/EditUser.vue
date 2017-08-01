@@ -105,6 +105,11 @@
                                     ></v-text-field>
                                 </v-flex>
                             </v-layout>
+                            <v-layout row>
+                                <v-spacer></v-spacer>
+                                <v-btn primary>Отправить</v-btn>
+                                <v-btn to="/users">Отмена</v-btn>
+                            </v-layout>
                         </v-container>
                     </v-card-text>
                 </v-card>

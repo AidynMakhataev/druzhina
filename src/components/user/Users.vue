@@ -28,16 +28,16 @@
                             </span>
                         </template>
                         <template slot="items" scope="props">
-                            <td>{{ props.item.name }}</td>
-                            <td  class="text-xs-right">{{ props.item.email }}</td>
-                            <td  class="text-xs-right">{{ props.item.phone }}</td>
-                            <td  class="text-xs-right">{{ props.item.iin }}</td>
-                            <td  class="text-xs-right">{{ props.item.sex }}</td>
-                            <td  class="text-xs-right">{{ props.item.age }}</td>
-                            <td  class="text-xs-right">{{ props.item.role }}</td>
-                            <td  class="text-xs-right">{{ props.item.regdate }}</td>
-                            <td class="text-xs-right" style="width: 20%;"><v-btn small fab class="amber"><v-icon class="white--text">account_circle</v-icon></v-btn></td>
-                            <td class="text-xs-right"><v-btn small primary fab dark><v-icon>edit</v-icon></v-btn></td>
+                            <td>{{ props.item.user_name }} {{ props.item.user_surname }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_email }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_phone }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_iin }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_sex }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_age }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_role }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_date }}</td>
+                            <td class="text-xs-right" style="width: 20%;"><v-btn small fab class="amber" :to="'/user/' + props.item.user_id"><v-icon class="white--text">account_circle</v-icon></v-btn></td>
+                            <td class="text-xs-right"><v-btn small primary fab dark :to="'/user/edit/' + props.item.user_id"><v-icon>edit</v-icon></v-btn></td>
                             <td class="text-xs-right"><v-btn small error fab dark><v-icon>delete</v-icon></v-btn></td>
                         </template>
                         <template slot="pageText" scope="{ pageStart, pageStop }" dark>
@@ -45,17 +45,27 @@
                         </template>
                     </v-data-table>
                 </v-card>
+
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     export default {
+        computed: {
+            ...mapState({
+                items: state => state.userStore.userList
+
+            })
+        },
+        created () {
+            this.$store.dispatch('setUserList')
+        },
         data () {
             return {
                 search: '',
-                pagination: {},
                 selected: [],
                 headers: [
                     {
@@ -64,129 +74,18 @@
                         sortable: false,
                         value: 'name'
                     },
-                    { text: 'Email', value: 'email' },
-                    { text: 'Телефон', value: 'phone' },
-                    { text: 'ИИН', value: 'iin' },
-                    { text: 'Пол', value: 'sex' },
-                    { text: 'Возраст', value: 'age' },
-                    { text: 'Роль', value: 'role' },
-                    { text: 'Дата регистрации', value: 'regdate' }
+                    { text: 'Email', value: 'user_email' },
+                    { text: 'Телефон', value: 'user_phone' },
+                    { text: 'ИИН', value: 'user_iin' },
+                    { text: 'Пол', value: 'user_sex' },
+                    { text: 'Возраст', value: 'user_age' },
+                    { text: 'Роль', value: 'user_role' },
+                    { text: 'Дата регистрации', value: 'user_date' }
                 ],
                 pagination: [
-                  8,16,30,{text: "Все", value: -1}
+                  10,20,30,{text: "Все", value: -1}
                 ],
-                items: [
-                    {
-                        value: false,
-                        name: 'Frozen Yogurt',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 87,
-                        role: 'Пользователь',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'Ice cream sandwich',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 129,
-                        role: 'Пользователь',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'Eclair',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 337,
-                        role: 'Пользователь',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'Cupcake',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 413,
-                        role: 'Пользователь',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'Gingerbread',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 327,
-                        role: 'Пользователь',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'Jelly bean',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 50,
-                        role: 'Пользователь',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'Lollipop',
-                        email: 'asd@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 38,
-                        role: 'Пользователь',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'Honeycomb',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-21',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 562,
-                        role: 'Пользователь',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'Donut',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 326,
-                        role: 'Оператор',
-                        regdate: '2017-06-15'
-                    },
-                    {
-                        value: false,
-                        name: 'KitKat',
-                        email: 'test@mail.ru',
-                        phone: '+7775-783-51-22',
-                        iin: '123456789012',
-                        sex: 1,
-                        age: 54,
-                        role: 'Админ',
-                        regdate: '2017-06-15'
-                    }
-                ]
+
             }
         }
     }

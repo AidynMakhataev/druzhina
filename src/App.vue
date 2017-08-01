@@ -64,6 +64,7 @@
 <script>
   import Auth from './store/auth'
   import Flash from './helpers/flash'
+  import { get } from './helpers/api'
   export default {
       created() {
           Auth.initialize()

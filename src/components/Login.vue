@@ -5,7 +5,7 @@
                     <div class="modal fade" id="login-modal">
                         <div class="modal-dialog">
                             <div class="loginmodal-container">
-                                <h1>Login to Your Account</h1><br>
+                                <h1>Войти в систему</h1><br>
                                 <form @submit.prevent="login">
                                     <input type="text" name="user" placeholder="Ваш логин" v-model="form.user_email">
                                     <input type="password" name="pass" placeholder="Пароль" v-model="form.user_password">
@@ -13,7 +13,7 @@
                                 </form>
 
                                 <div class="login-help">
-                                    <a href="#">Register</a> - <a href="#">Forgot Password</a>
+                                    <v-alert error dismissible v-model="alert" v-if="error.text"> {{ error.text }} </v-alert>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,9 @@
                     user_email: '',
                     user_password: '',
                 },
-                isProcessing: false
+                isProcessing: false,
+                alert: false,
+                error: {}
             }
         },
         methods: {
@@ -44,15 +46,25 @@
                     user_email: this.form.user_email,
                     user_password: this.form.user_password
                 }
-                // Пока не восстановят сервак, буду имитировать авторизацию
-//                post('/api/user/signin', data)
-//                    .then((response) => {
-//                        console.log(response)
-//                    })
-                Auth.set(data.user_email)
-                Flash.setSuccess('Вы успешно авторизовались!')
-                this.$router.push('/')
-                this.isProcessing = false
+                 //Пока не восстановят сервак, буду имитировать авторизацию
+                post('/api/user/signin', data)
+                    .then((response) => {
+                        if(response.status === 200) {
+                            Auth.set(response.data.user_email,response.data.user_name)
+                            Flash.setSuccess('Вы успешно авторизовались!')
+                            this.$router.push('/')
+                        }
+                        this.isProcessing = false
+                    })
+                    .catch((err) => {
+                        this.error.text =  'Не верные данные!'
+                        this.alert = true
+                        this.isProcessing = false
+                    })
+//                Auth.set(data.user_email)
+//                Flash.setSuccess('Вы успешно авторизовались!')
+//                this.$router.push('/')
+//                this.isProcessing = false
             }
         }
     }

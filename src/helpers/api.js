@@ -1,12 +1,20 @@
 import axios from 'axios'
-import Auth from '../store/auth'
 
+const baseUrl = 'https://brigade.kz';
 export function post(url, payload) {
-    var baseUrl = 'https://brigade.kz';
+
     return axios({
         method: 'POST',
         url: baseUrl + url,
         data: payload,
+        withCredentials: true
+    })
+}
+
+export function get(url) {
+    return axios({
+        method: 'GET',
+        url: baseUrl + url,
         withCredentials: true
     })
 }
