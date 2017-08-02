@@ -1,7 +1,7 @@
 <template>
     <v-container>
     <v-layout class="mt-5">
-        <v-flex xs12 sm12 md4>
+        <v-flex xs12 sm12 md3>
             <v-card>
                 <v-card-media :src="getUserPhoto()">
                     <v-layout column class="media">
@@ -11,7 +11,7 @@
                                 <v-icon>edit</v-icon>
                             </v-btn>
                             <v-btn dark icon>
-                                <v-icon>more_vert</v-icon>
+                                <v-icon>delete</v-icon>
                             </v-btn>
                         </v-card-title>
                         <v-spacer></v-spacer>
@@ -96,13 +96,14 @@
                 </v-list>
             </v-card>
         </v-flex>
-        <v-flex xs12 sm12 md8>
+        <v-flex xs12 sm12 md9>
             <v-card flat height="100%">
                 <v-toolbar class="white" floating dense>
                     <v-toolbar-title single-line>Последние координаты {{ user.user_name }} {{ user.user_surname }}</v-toolbar-title>
                     <v-btn icon>
                         <v-icon>my_location</v-icon>
                     </v-btn>
+
                 </v-toolbar>
                 <gmap-map
                         :center="center"

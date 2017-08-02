@@ -38,11 +38,29 @@
                             <td  class="text-xs-right">{{ props.item.user_date }}</td>
                             <td class="text-xs-right" style="width: 20%;"><v-btn small fab class="amber" :to="'/user/' + props.item.user_id"><v-icon class="white--text">account_circle</v-icon></v-btn></td>
                             <td class="text-xs-right"><v-btn small primary fab dark :to="'/user/edit/' + props.item.user_id"><v-icon>edit</v-icon></v-btn></td>
-                            <td class="text-xs-right"><v-btn small error fab dark><v-icon>delete</v-icon></v-btn></td>
+                            <td class="text-xs-right">
+
+                                <v-btn error small dark fab @click.native.stop="showDelete(props.item)"><v-icon>delete</v-icon></v-btn>
+                                <v-dialog v-model="dialog" lazy absolute width="450">
+                                    <v-card>
+                                        <v-card-title>
+                                            <div class="headline" style="text-align: center">Вы уверены что хотите удалить пользователя {{ currentUser.user_name }} {{ currentUser.user_surname }} ?</div>
+                                        </v-card-title>
+                                        <v-card-text>Эта операция не может быть отменена! Все данные пользователя {{ currentUser.user_name }} {{ currentUser.user_surname }} будут удалены, и не подлежат восстанавлению! </v-card-text>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn error @click.native="fetchDelete(currentUser)">Удалить</v-btn>
+                                            <v-btn primary @click.native="dialog = false">Отмена</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                            </td>
                         </template>
+
                         <template slot="pageText" scope="{ pageStart, pageStop }" dark>
                             От {{ pageStart }} до {{ pageStop }}
                         </template>
+
                     </v-data-table>
                 </v-card>
 
@@ -62,6 +80,15 @@
         },
         created () {
             this.$store.dispatch('setUserList')
+        },
+        methods: {
+            showDelete(user) {
+                this.currentUser = user;
+                this.dialog = true;
+            },
+            fetchDelete(id) {
+                this.$store.dispatch('fetchDeleteUser', id)
+            }
         },
         data () {
             return {
@@ -85,6 +112,8 @@
                 pagination: [
                   10,20,30,{text: "Все", value: -1}
                 ],
+                dialog: false,
+                currentUser: {}
 
             }
         }

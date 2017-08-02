@@ -18,3 +18,10 @@ export function get(url) {
         withCredentials: true
     })
 }
+export function del(url) {
+    return axios({
+        method: 'DELETE',
+        url: baseUrl + url,
+        withCredentials: true
+    })
+}
