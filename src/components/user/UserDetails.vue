@@ -109,16 +109,17 @@
                         :center="center"
                         :zoom="12"
                         style="height: 90%"
+                        v-if="markers.length !== 0"
                 >
                     <gmap-marker
                             :key="index"
                             v-for="(m, index) in markers"
                             :position="m.position"
                             :clickable="true"
-                            :draggable="true"
                             @click="center=m.position"
                     ></gmap-marker>
                 </gmap-map>
+                <h6 class="ml-4 mt-4" v-else>У пользователя {{ user.user_name }} {{ user.user_surname }} отсутствуют координаты</h6>
             </v-card>
         </v-flex>
     </v-layout>
@@ -127,50 +128,26 @@
 </template>
 
 <script>
-    import * as VueGoogleMaps from 'vue2-google-maps';
-    import Vue from 'vue';
 
-    Vue.use(VueGoogleMaps, {
-        load: {
-            key: 'AIzaSyCScnmbvb8VoQTEti15eFCrPfkhNAOZOF8'
-        }
-    });
-    import { get } from './../../helpers/api'
+    import {mapState} from 'vuex'
     export default {
         data () {
             return {
-                user: '',
-                center: {lat: 43.231696, lng: 76.94481},
-                markers: [],
-                img: ''
+                center: {lat: 43.231696, lng: 76.94481}
             }
         },
+        computed: {
+            ...mapState({
+                user: state => state.userStore.user,
+                markers: state => state.traceStore.userTraces
+            })
+        },
         created() {
-            this.fetchUser(this.$route.params.id)
-            this.fetchUserTraces(this.$route.params.id)
+            this.$store.dispatch('fetchSingleUser', this.$route.params.id)
+            this.$store.dispatch('fetchUserTraces', this.$route.params.id)
+
         },
         methods: {
-            fetchUser(id) {
-                get('/api/user/' + id)
-                    .then(response => {
-                        this.user = response.data
-                    })
-            },
-            fetchUserTraces(id) {
-                let temporary = []
-                get('/api/user/' + id + '/trace?count=10')
-                    .then(response => {
-                        temporary = response.data
-                        for(let i = 0; i<temporary.length; i ++) {
-                            this.markers.push({
-                                position: {
-                                    lat: temporary[i].trace_latitude,
-                                    lng: temporary[i].trace_longitude
-                                }
-                            })
-                        }
-                    })
-            },
             getUserPhoto () {
 
                 let imgPath = '';

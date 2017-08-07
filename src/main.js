@@ -5,6 +5,13 @@ import Vuetify from 'vuetify'
 import App from './App'
 import router from './router'
 import store from  './store/store'
+import * as VueGoogleMaps from 'vue2-google-maps';
+
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyCScnmbvb8VoQTEti15eFCrPfkhNAOZOF8'
+    }
+});
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false

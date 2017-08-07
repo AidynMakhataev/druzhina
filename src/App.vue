@@ -16,7 +16,7 @@
       v-if="auth"
     >
       <v-list dense>
-        <v-list-tile avatar class="mb-2" :to="'/profile'">
+        <v-list-tile avatar class="mb-2">
           <v-list-tile-avatar>
             <img src="http://www.rush-agency.ru/wp-content/uploads/avatar-1.png" alt="">
           </v-list-tile-avatar>
@@ -46,7 +46,6 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat v-if="auth" :to="'/profile'" class="white--text"><v-icon left class="white--text">account_box</v-icon>Profile</v-btn>
         <v-btn flat v-if="auth" @click.stop="logout" class="white--text"><v-icon left class="white--text">exit_to_app</v-icon>Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>

@@ -44,12 +44,12 @@
                                 <v-dialog v-model="dialog" lazy absolute width="450">
                                     <v-card>
                                         <v-card-title>
-                                            <div class="headline" style="text-align: center">Вы уверены что хотите удалить пользователя {{ currentUser.user_name }} {{ currentUser.user_surname }} ?</div>
+                                            <div class="headline" style="text-align: center">Вы уверены что хотите удалить пользователя {{ chosenUser.user_name }} {{ chosenUser.user_surname }} ?</div>
                                         </v-card-title>
-                                        <v-card-text>Эта операция не может быть отменена! Все данные пользователя {{ currentUser.user_name }} {{ currentUser.user_surname }} будут удалены, и не подлежат восстанавлению! </v-card-text>
+                                        <v-card-text>Эта операция не может быть отменена! Все данные пользователя {{ chosenUser.user_name }} {{ chosenUser.user_surname }} будут удалены, и не подлежат восстанавлению! </v-card-text>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
-                                            <v-btn error @click.native="fetchDelete(currentUser)">Удалить</v-btn>
+                                            <v-btn error @click.native="fetchDelete(chosenUser)">Удалить</v-btn>
                                             <v-btn primary @click.native="dialog = false">Отмена</v-btn>
                                         </v-card-actions>
                                     </v-card>
@@ -83,11 +83,11 @@
         },
         methods: {
             showDelete(user) {
-                this.currentUser = user;
+                this.chosenUser = user;
                 this.dialog = true;
             },
-            fetchDelete(id) {
-                this.$store.dispatch('fetchDeleteUser', id)
+            fetchDelete(user) {
+                this.$store.dispatch('fetchDeleteUser', user)
             }
         },
         data () {
@@ -113,7 +113,7 @@
                   10,20,30,{text: "Все", value: -1}
                 ],
                 dialog: false,
-                currentUser: {}
+                chosenUser: {}
 
             }
         }

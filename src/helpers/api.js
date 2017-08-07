@@ -2,7 +2,6 @@ import axios from 'axios'
 
 const baseUrl = 'https://brigade.kz';
 export function post(url, payload) {
-
     return axios({
         method: 'POST',
         url: baseUrl + url,
@@ -22,6 +21,14 @@ export function del(url) {
     return axios({
         method: 'DELETE',
         url: baseUrl + url,
+        withCredentials: true
+    })
+}
+export function put(url, payload) {
+    return axios({
+        method: 'PUT',
+        url: baseUrl + url,
+        data: payload,
         withCredentials: true
     })
 }
