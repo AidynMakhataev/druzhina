@@ -18,19 +18,20 @@
                         <v-divider></v-divider>
                         <v-list-tile avatar href="javascript:;" id="asd" v-for="(user,i) in all" :key="user.trace_user_id">
                             <v-list-tile-avatar >
-                                <img v-bind:src="avatar"></v-list-tile-avatar>
+                                <img v-bind:src="getUserPhoto(user.user_avatar)" style="width: 56px; height: 56px"></v-list-tile-avatar>
                             <v-list-tile-content >
                                 <v-list-tile-title >
                                     {{ user.user_name }}  {{ user.user_surname }}
                                 </v-list-tile-title>
                                 <v-list-tile-sub-title>
                                     <v-icon>email</v-icon>
-                                    {{ user.user_email }}
+                                    {{ user.user_email }} <br/>
                                     <v-icon>phone</v-icon>
                                     {{ user.user_phone }}
                                     <v-spacer></v-spacer>
-                                    <v-btn error @click="cancelEvent(user.trace_user_id)">Отмена тревоги</v-btn>
-                                    <v-btn primary @click="findMarker(user.trace_latitude,user.trace_longitude,i)">Найти на карте</v-btn>
+                                        <v-btn error @click="cancelEvent(user.trace_user_id)">Отмена тревоги</v-btn> <br/>
+                                        <v-btn primary @click="findMarker(user.trace_latitude,user.trace_longitude,i)">Найти на карте</v-btn> 
+                                        
                                 </v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-divider></v-divider>
@@ -39,7 +40,7 @@
                 </v-list>
             </v-card>
         </v-flex>
-        <v-flex xs12 sm12 md9>
+        <v-flex xs12 sm12 md12>
             <v-card flat height="800px">
                 <gmap-map
                         :center="center"
@@ -129,9 +130,9 @@
                                     else {
                                         image = 'https://vuetifyjs.com/static/doc-images/cards/docks.jpg'
                                     }
-                                    var test = '<div class="card" style="height: 300px;">' +
-                                            '<div class="card__media" style="height: 100px;">' +
-                                            '<div class="card__media__background" style="background: url(' + image + ') center center / cover no-repeat;"></div>' +
+                                    var test = '<div class="card" style="height: 350px;">' +
+                                            '<div class="card__media" style="height: 200px;">' +
+                                            '<div class="card__media__background" style="background: url(' + image + '); background-size: cover;"></div>' +
                                             '<div class="card__media__content">' +
                                             '<div class="layout media column">' +
                                             '<div class="spacer"></div>' +
@@ -160,6 +161,16 @@
                         }
                     }).catch(error => {console.log(error); });
                  setTimeout(function(){ self.getCoords() }, 30000);
+            },
+            getUserPhoto (avatar) {
+                let imgPath = '';
+                if(avatar) {
+                    imgPath = 'https://brigade.kz/api/file/' + avatar
+                }
+                else {
+                    imgPath = 'https://vuetifyjs.com/static/doc-images/cards/docks.jpg'
+                }
+                return imgPath;
             }
         },
         data () {
@@ -167,7 +178,7 @@
                 center: {lat: 43.231696, lng: 76.94481},
                 markers: [],
                 users: [],
-                avatar : 'https://vuetifyjs.com/static/doc-images/cards/docks.jpg',
+                avatar : '',
                 all: [],
                 infoContent: '',
                 infoWindowPos: {
@@ -190,6 +201,6 @@
 
 <style>
    #asd {
-       height:100px!important;
+       height:250px!important;
    }
 </style>

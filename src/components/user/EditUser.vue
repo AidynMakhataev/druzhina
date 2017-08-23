@@ -180,7 +180,8 @@
                     user_age: parseInt(this.userDetails.user_age),
                     user_role: parseInt(this.userDetails.user_role),
                     user_sex: parseInt(this.userDetails.user_sex),
-                    user_id: parseInt(this.userDetails.user_id)
+                    user_id: parseInt(this.userDetails.user_id),
+                    user_avatar: this.userDetails.user_avatar
                 }
 //                console.log(response)
                 this.$store.dispatch('fetchUpdateUser', userData)

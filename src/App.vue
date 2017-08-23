@@ -22,7 +22,7 @@
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>
-              Current User
+              Оператор Brigade
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
@@ -46,7 +46,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat v-if="auth" @click.stop="logout" class="white--text"><v-icon left class="white--text">exit_to_app</v-icon>Logout</v-btn>
+        <v-btn flat v-if="auth" @click.stop="logout" class="white--text"><v-icon left class="white--text">exit_to_app</v-icon>Выйти из системы</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <main>
