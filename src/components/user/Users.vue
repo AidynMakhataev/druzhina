@@ -34,7 +34,7 @@
                             <td  class="text-xs-right">{{ props.item.user_iin }}</td>
                             <td  class="text-xs-right">{{ props.item.user_sex }}</td>
                             <td  class="text-xs-right">{{ props.item.user_age }}</td>
-                            <td  class="text-xs-right">{{ props.item.user_role }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_role === 1 ? 'Пользователь' : 'Оператор' }}</td>
                             <td  class="text-xs-right">{{ props.item.user_date }}</td>
                             <td class="text-xs-right" style="width: 20%;"><v-btn small fab class="amber" :to="'/user/' + props.item.user_id"><v-icon class="white--text">account_circle</v-icon></v-btn></td>
                             <td class="text-xs-right"><v-btn small primary fab dark :to="'/user/edit/' + props.item.user_id"><v-icon>edit</v-icon></v-btn></td>

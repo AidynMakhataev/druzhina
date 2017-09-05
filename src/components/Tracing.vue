@@ -122,8 +122,11 @@
 
                             get('/api/user/' + this.users[i].user_id + '/trace?count=1')
                                 .then(response => {
-                                    this.all.push(response.data[0])
-                                    console.log('Response',this.all);
+                                    this.all.push(response.data[0]);
+                                    this.center = {
+                                        lat: response.data[0].trace_latitude,
+                                        lng: response.data[0].trace_longitude
+                                    }
                                     if(response.data[0].user_avatar != null) {
                                         image = 'https://brigade.kz/api/file/' + response.data[0].user_avatar;
                                     }
@@ -175,7 +178,7 @@
         },
         data () {
             return {
-                center: {lat: 43.231696, lng: 76.94481},
+                center: {},
                 markers: [],
                 users: [],
                 avatar : '',

@@ -50,21 +50,24 @@
                 post('/api/user/signin', data)
                     .then((response) => {
                         if(response.status === 200) {
-                            Auth.set(response.data.user_email,response.data.user_name)
-                            Flash.setSuccess('Вы успешно авторизовались!')
-                            this.$router.push('/')
+                            if(response.data.user_role === 2 || response.data.user_role === 3) {
+                                Auth.set(response.data.user_email,response.data.user_name)
+                                Flash.setSuccess('Вы успешно авторизовались!')
+                                this.$router.push('/tracing')
+                            } else {
+                                this.handleErrors()
+                            }
                         }
                         this.isProcessing = false
                     })
                     .catch((err) => {
-                        this.error.text =  'Не верные данные!'
-                        this.alert = true
-                        this.isProcessing = false
+                        this.handleErrors()
                     })
-//                Auth.set(data.user_email)
-//                Flash.setSuccess('Вы успешно авторизовались!')
-//                this.$router.push('/')
-//                this.isProcessing = false
+            },
+            handleErrors() {
+                this.error.text =  'Не верные данные!'
+                this.alert = true
+                this.isProcessing = false
             }
         }
     }

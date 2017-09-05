@@ -7,10 +7,10 @@
                     <v-layout column class="media">
                         <v-card-title>
                             <v-spacer></v-spacer>
-                            <v-btn dark icon class="mr-3">
+                            <v-btn dark icon class="mr-3" :to="'/user/edit/' + user.user_id">
                                 <v-icon>edit</v-icon>
                             </v-btn>
-                            <v-btn dark icon>
+                            <v-btn dark icon @click.native.stop="showDelete(user)">
                                 <v-icon>delete</v-icon>
                             </v-btn>
                         </v-card-title>
@@ -106,7 +106,7 @@
 
                 </v-toolbar>
                 <gmap-map
-                        :center="center"
+                        :center="markers[0].position"
                         :zoom="12"
                         style="height: 90%"
                         v-if="markers.length !== 0"
@@ -122,6 +122,19 @@
                 <h6 class="ml-4 mt-4" v-else>У пользователя {{ user.user_name }} {{ user.user_surname }} отсутствуют координаты</h6>
             </v-card>
         </v-flex>
+        <v-dialog v-model="dialog" lazy absolute width="450">
+            <v-card>
+                <v-card-title>
+                    <div class="headline" style="text-align: center">Вы уверены что хотите удалить пользователя {{ chosenUser.user_name }} {{ chosenUser.user_surname }} ?</div>
+                </v-card-title>
+                <v-card-text>Эта операция не может быть отменена! Все данные пользователя {{ chosenUser.user_name }} {{ chosenUser.user_surname }} будут удалены, и не подлежат восстанавлению! </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn error @click.native="fetchDelete(chosenUser)">Удалить</v-btn>
+                    <v-btn primary @click.native="dialog = false">Отмена</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-layout>
 
     </v-container>
@@ -133,7 +146,8 @@
     export default {
         data () {
             return {
-                center: {lat: 43.231696, lng: 76.94481}
+                dialog: false,
+                chosenUser: {}
             }
         },
         computed: {
@@ -158,6 +172,14 @@
                     imgPath = 'https://vuetifyjs.com/static/doc-images/cards/docks.jpg'
                 }
                 return imgPath;
+            },
+            showDelete(user) {
+                this.chosenUser = user;
+                this.dialog = true;
+            },
+            fetchDelete(user) {
+                this.$store.dispatch('fetchDeleteUser', user)
+                this.$router.push('/users')
             }
         }
     }

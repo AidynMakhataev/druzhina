@@ -6,8 +6,8 @@ import Users from '@/components/user/Users'
 import UserDetails from '@/components/user/UserDetails'
 import EditUser from '@/components/user/EditUser'
 import Register from '@/components/user/Register'
-import Profile from '@/components/Profile'
 import Tracing from '@/components/Tracing'
+import NotFound from '@/components/NotFound'
 import {get} from './../helpers/api'
 
 Vue.use(Router)
@@ -20,6 +20,11 @@ const router = new Router({
       component: Home,
       meta: { requiresAuth: true }
 
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: NotFound
     },
     {
       path: '/login',
@@ -55,6 +60,10 @@ const router = new Router({
       name: 'Tracing',
       component: Tracing,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ]
 })
