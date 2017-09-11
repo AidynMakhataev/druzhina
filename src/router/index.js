@@ -15,13 +15,6 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'Home',
-      component: Home,
-      meta: { requiresAuth: true }
-
-    },
-    {
       path: '/404',
       name: '404',
       component: NotFound
@@ -56,7 +49,7 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
-      path: '/tracing',
+      path: '/',
       name: 'Tracing',
       component: Tracing,
       meta: { requiresAuth: true }

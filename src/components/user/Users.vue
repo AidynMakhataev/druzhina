@@ -28,11 +28,11 @@
                             </span>
                         </template>
                         <template slot="items" scope="props">
-                            <td>{{ props.item.user_name }} {{ props.item.user_surname }}</td>
+                            <td>{{ props.item.user_name }} {{ props.item.user_surname }} </td>
                             <td  class="text-xs-right">{{ props.item.user_email }}</td>
                             <td  class="text-xs-right">{{ props.item.user_phone }}</td>
                             <td  class="text-xs-right">{{ props.item.user_iin }}</td>
-                            <td  class="text-xs-right">{{ props.item.user_sex }}</td>
+                            <td  class="text-xs-right">{{ props.item.user_sex === 1 ? 'Мужской' : props.item.user_sex === 2 ? 'Женский' : '' }}</td>
                             <td  class="text-xs-right">{{ props.item.user_age }}</td>
                             <td  class="text-xs-right">{{ props.item.user_role === 1 ? 'Пользователь' : 'Оператор' }}</td>
                             <td  class="text-xs-right">{{ props.item.user_date }}</td>
@@ -75,7 +75,6 @@
         computed: {
             ...mapState({
                 items: state => state.userStore.userList
-
             })
         },
         created () {
@@ -98,7 +97,6 @@
                     {
                         text: 'ФИО',
                         align: 'left',
-                        sortable: false,
                         value: 'name'
                     },
                     { text: 'Email', value: 'user_email' },
@@ -113,7 +111,8 @@
                   10,20,30,{text: "Все", value: -1}
                 ],
                 dialog: false,
-                chosenUser: {}
+                chosenUser: {},
+                counter: 0
 
             }
         }

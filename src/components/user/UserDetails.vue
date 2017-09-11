@@ -157,11 +157,19 @@
             })
         },
         created() {
-            this.$store.dispatch('fetchSingleUser', this.$route.params.id)
+            this.test()
             this.$store.dispatch('fetchUserTraces', this.$route.params.id)
-
         },
         methods: {
+            test () {
+                return this.$store.dispatch('fetchSingleUser', this.$route.params.id)
+                    .then(() => {
+                         this.test2()
+                    })
+            },
+            test2() {
+                console.log('test2',this.$store.state.userStore.user)
+            },
             getUserPhoto () {
 
                 let imgPath = '';

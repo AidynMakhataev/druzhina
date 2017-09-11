@@ -72,7 +72,7 @@
           return {
               drawer: true,
               items: [
-                  {title: 'Отслеживание', icon: 'my_location', link: '/tracing'},
+                  {title: 'Отслеживание', icon: 'my_location', link: '/'},
                   {title: 'Пользователи', icon: 'person', link: '/users'},
                   {title: 'Регистрация', icon: 'face', link: '/register'}
               ],

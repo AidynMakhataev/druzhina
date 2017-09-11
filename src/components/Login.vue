@@ -53,7 +53,7 @@
                             if(response.data.user_role === 2 || response.data.user_role === 3) {
                                 Auth.set(response.data.user_email,response.data.user_name)
                                 Flash.setSuccess('Вы успешно авторизовались!')
-                                this.$router.push('/tracing')
+                                this.$router.push('/')
                             } else {
                                 this.handleErrors()
                             }
