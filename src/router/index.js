@@ -8,6 +8,7 @@ import EditUser from '@/components/user/EditUser'
 import Register from '@/components/user/Register'
 import Tracing from '@/components/Tracing'
 import NotFound from '@/components/NotFound'
+import newTracing from '@/components/newTracing'
 import {get} from './../helpers/api'
 
 Vue.use(Router)
@@ -53,6 +54,12 @@ const router = new Router({
       name: 'Tracing',
       component: Tracing,
       meta: { requiresAuth: true }
+    },
+    {
+      path:'/test',
+      name: 'test',
+      component: newTracing,
+      meta: {requiresAuth: true}
     },
     {
       path: '*',

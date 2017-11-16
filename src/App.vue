@@ -67,6 +67,7 @@
   export default {
       created() {
           Auth.initialize()
+//          this.$store.dispatch('fetchDangerUsers')
       },
       data () {
           return {
